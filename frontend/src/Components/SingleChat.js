@@ -24,7 +24,7 @@ import Lottie from "react-lottie"
 import animationData from "../animations/typing.json"
 
 
-const ENDPOINT = "https://chating-app-1.herokuapp.com/";
+const ENDPOINT = "https://chatting-app-0.herokuapp.com/";
 var socket, selectedChatCompare;
 
 const SingleChat = ({ fetchAgain, setFetchAgain }) => {
@@ -95,8 +95,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
 
   useEffect(() => {
     socket.on("message recieved", (newMessageRecieved) => {
-      if (
-        !selectedChatCompare ||
+      if ( !selectedChatCompare ||
         selectedChatCompare._id !== newMessageRecieved.chat._id
       ) {
         if(!notification.includes(newMessageRecieved)) {

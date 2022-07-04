@@ -150,7 +150,6 @@ const SideDrawer = () => {
               {!notification.length && "No New Messages"}
               {notification.map((notif) => (
                 <MenuItem key={notif._id} onClick={() => {
-                  console.log(notif);
                   setSelectedChat(notif.chat);
                   setNotification(notification.filter((n) => n.sender._id!==notif.sender._id));
                 }}>
