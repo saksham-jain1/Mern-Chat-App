@@ -1,0 +1,22 @@
+@import url('https://fonts.googleapis.com/css2?family=Work+Sans:wght@300&display=swap');
+
+.App{
+    min-height: 100vh;
+    min-width: 300px;
+    display: flex;
+    background-image: url("./bgImage.jpg");
+    background-size: cover;
+    background-position: center;
+}
+
+::-webkit-scrollbar {
+    width: 0px;
+}
+::-webkit-slider-thumb {
+    background: rgba(136, 136, 136, 0.281);
+}
+
+::-webkit-slider-thumb:hover {
+    background: #555;
+}
+
