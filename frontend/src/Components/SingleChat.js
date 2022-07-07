@@ -9,6 +9,7 @@ import {
   InputRightElement,
   Button,
   useToast,
+  Heading,
 } from "@chakra-ui/react";
 import { ArrowBackIcon } from "@chakra-ui/icons";
 import React, { useEffect, useState } from "react";
@@ -235,11 +236,13 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
             )}
             <FormControl onKeyDown={sendMessage} isRequired mt={3}>
               {isTyping ? (
-                <div><Lottie 
-                  options={defaultOptions}
-                  width={70}
-                  style={{marginBottom:15, marginLeft:0}}
-                /></div>
+                <div>
+                  <Lottie
+                    options={defaultOptions}
+                    width={70}
+                    style={{ marginBottom: 15, marginLeft: 0 }}
+                  />
+                </div>
               ) : (
                 <></>
               )}
@@ -271,13 +274,16 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
         </>
       ) : (
         <Box display="flex" alignItems="center" h="100%">
-          <Text fontSize="3xl" pb={3} fontFamily="Work sans">
-            <Lottie 
-                  options={defaultOptions1}
-                  height="40vh"
-                  style={{marginBottom:15, marginLeft:0}}
-                  />
-                  Click on a user to start chatting
+          <Text
+            pb={3}
+            fontFamily="Work sans"
+          >
+            <Lottie
+              options={defaultOptions1}
+              height="45vh"
+              style={{ marginBottom: 15, marginLeft: 0 }}
+            />
+            <Heading>Click on a user to start chatting</Heading>
           </Text>
         </Box>
       )}

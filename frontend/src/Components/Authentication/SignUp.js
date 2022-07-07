@@ -23,6 +23,16 @@ const SignUp = () => {
   const toast = useToast();
   const history = useHistory();
 
+
+
+    const showHandler = () => {
+      setShow(!show);
+
+      const type = show ? "text" : "password";
+      document.getElementById("password").setAttribute("type", type);
+      document.getElementById("confirmPassword").setAttribute("type", type);
+    };
+
   const postDetails = (pics) => {
     setLoading(true);
     if(pics === undefined) {
@@ -144,7 +154,7 @@ const SignUp = () => {
             onChange={(e) => setPassword(e.target.value)}
           />
           <InputRightElement width="4.5rem">
-            <Button h="1.75rem" size="sm" onClick={() => setShow(!show)}>
+            <Button h="1.75rem" size="sm" onClick={showHandler}>
               {show ? "Hide" : "Show"}
             </Button>
           </InputRightElement>
@@ -158,7 +168,7 @@ const SignUp = () => {
             onChange={(e) => setConfirmPassword(e.target.value)}
           />
           <InputRightElement width="4.5rem">
-            <Button h="1.75rem" size="sm" onClick={() => setShow(!show)}>
+            <Button h="1.75rem" size="sm" onClick={showHandler}>
               {show ? "Hide" : "Show"}
             </Button>
           </InputRightElement>
