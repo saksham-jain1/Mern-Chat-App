@@ -274,7 +274,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
           <Text fontSize="3xl" pb={3} fontFamily="Work sans">
             <Lottie 
                   options={defaultOptions1}
-                  width={70}
+                  height="40vh"
                   style={{marginBottom:15, marginLeft:0}}
                   />
                   Click on a user to start chatting
