@@ -7,7 +7,6 @@ const messageRoutes = require("./routes/messageRoute");
 const { notFound, errorHandler } = require("./middleware/errorMiddleware");
 const path = require('path');
 
-
 dotenv.config();
 
 connectDB();
@@ -54,6 +53,8 @@ const io = require("socket.io")(server, {
 
 io.on("connection", (socket) => {
   console.log("connected to socket.io");
+  
+  
   socket.on("setup", (userData) => {
     socket.join(userData._id);
     socket.emit("connected");
@@ -64,7 +65,7 @@ io.on("connection", (socket) => {
     console.log("user joined room: " + room);
   });
 
-  socket.on("typing",(room) => socket.in(room).emit("typing"));
+  socket.on("typin",(room) => socket.in(room).emit("typing"));
   socket.on("stop typing",(room) => socket.in(room).emit("stop typing"));
 
   socket.on("new message", (newMessageRecieved) => {

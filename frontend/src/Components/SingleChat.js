@@ -24,7 +24,7 @@ import Lottie from "react-lottie"
 import animationData from "../animations/typing.json"
 
 
-const ENDPOINT = "https://chatting-app-0.herokuapp.com/";
+const ENDPOINT = "http://localhost:5000";
 var socket, selectedChatCompare;
 
 const SingleChat = ({ fetchAgain, setFetchAgain }) => {
@@ -89,7 +89,6 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
 
   useEffect(() => {
     fetchMessage();
-
     selectedChatCompare = selectedChat;
   }, [selectedChat]);
 

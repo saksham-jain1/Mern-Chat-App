@@ -10,11 +10,9 @@ import GroupChatModal from "../Components/miscellameous/GroupChatModal";
 const MyChats = ({ fetchAgain }) => {
   const [loggedUser, setLoggedUser] = useState();
   const { selectedChat, setSelectedChat, user, chats, setChats } = ChatState();
-
   const toast = useToast();
-
+  
   const fetchChats = async () => {
-    console.log(user);
     try {
       const config = {
         headers: {

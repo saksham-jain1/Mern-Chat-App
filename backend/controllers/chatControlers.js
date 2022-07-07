@@ -27,7 +27,6 @@ const accessChat = asyncHandler(async (req, res) => {
   });
 
   if (isChat.length > 0) {
-    console.log("no");
     res.send(isChat[0]);
   } else {
     var chatData = {
