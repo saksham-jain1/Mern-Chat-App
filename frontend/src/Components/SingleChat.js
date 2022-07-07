@@ -22,6 +22,7 @@ import ScrollableChat from "./ScrollableChat";
 import io from "socket.io-client";
 import Lottie from "react-lottie"
 import animationData from "../animations/typing.json"
+import animationData1 from "../animations/welcome.json"
 
 
 const ENDPOINT = "https://chatting-app-0.herokuapp.com/";
@@ -39,6 +40,15 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
     loop: true,
     autoplay: true,
     animationData: animationData,
+    rendererSettings: {
+      preserveAspectRatio: "xMidYMid slice",
+    },
+  };
+
+  const defaultOptions1 = {
+    loop: true,
+    autoplay: true,
+    animationData: animationData1,
     rendererSettings: {
       preserveAspectRatio: "xMidYMid slice",
     },
@@ -262,7 +272,12 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
       ) : (
         <Box display="flex" alignItems="center" h="100%">
           <Text fontSize="3xl" pb={3} fontFamily="Work sans">
-            Click on a user to start chatting
+            <Lottie 
+                  options={defaultOptions1}
+                  width={70}
+                  style={{marginBottom:15, marginLeft:0}}
+                  />
+                  Click on a user to start chatting
           </Text>
         </Box>
       )}
