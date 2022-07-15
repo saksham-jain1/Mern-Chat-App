@@ -10,12 +10,14 @@ import {
   Button,
   useToast,
   Heading,
+  useColorMode,
 } from "@chakra-ui/react";
 import { ArrowBackIcon } from "@chakra-ui/icons";
 import React, { useEffect, useState } from "react";
 import { ChatState } from "../Context/ChatProvider";
 import { getSender, getSenderFull } from "../config/ChatLogics";
 import ProfileModal from "../Components/miscellameous/ProfileModal";
+import CallModal from "./miscellameous/CallModal.js";
 import UpadteGroupChatModal from "./miscellameous/UpadteGroupChatModal";
 import axios from "axios";
 import "./style.css";
@@ -36,6 +38,9 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
   const [socketConneted, setsocketConneted] = useState(false);
   const [typing, setTyping] = useState(false);
   const [isTyping, setIsTyping] = useState(false);
+  const { colorMode, toggleColorMode } = useColorMode();
+
+
 
   const defaultOptions = {
     loop: true,
@@ -197,7 +202,12 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
             {!selectedChat.isGroupChat ? (
               <>
                 {getSender(user, selectedChat.users)}
-                <ProfileModal user={getSenderFull(user, selectedChat.users)} />
+                <span style={{ display: "flex"}}>
+                  <CallModal />
+                  <ProfileModal
+                    user={getSenderFull(user, selectedChat.users)}
+                  />
+                </span>
               </>
             ) : (
               <>
@@ -215,7 +225,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
             flexDir="column"
             justifyContent="flex-end"
             p={3}
-            bg="#e8e8e8"
+            bg={colorMode === "light" ? "#e8e8e8" : "black"}
             w="100%"
             h="100%"
             borderRadius="lg"
@@ -274,17 +284,16 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
         </>
       ) : (
         <Box display="flex" alignItems="center" h="100%">
-          <Text
-            pb={3}
-            fontFamily="Work sans"
-          >
+          <Box>
             <Lottie
               options={defaultOptions1}
               height="45vh"
               style={{ marginBottom: 15, marginLeft: 0 }}
             />
-            <Heading>Click on a user to start chatting</Heading>
-          </Text>
+            <Text pb={3} fontSize={36} fontFamily="Work sans">
+              Click on a user to start chatting
+            </Text>
+          </Box>
         </Box>
       )}
     </>

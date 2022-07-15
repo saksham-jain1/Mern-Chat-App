@@ -1,6 +1,6 @@
 import React from "react";
 import { useState } from "react";
-import { BellIcon, ChevronDownIcon } from "@chakra-ui/icons";
+import { BellIcon, ChevronDownIcon, MoonIcon, SunIcon } from "@chakra-ui/icons";
 import {
   Box,
   Tooltip,
@@ -20,6 +20,7 @@ import {
   DrawerContent,
   useToast,
   Spinner,
+  useColorMode,
 } from "@chakra-ui/react";
 import { Avatar } from "@chakra-ui/avatar";
 import { ChatState } from "../../Context/ChatProvider";
@@ -29,8 +30,7 @@ import axios from "axios";
 import ChatLoading from "../ChatLoading";
 import UserListItem from "../UserAvatar/UserListItem";
 import { getSender } from "../../config/ChatLogics";
-import NotificationBadge, { Effect } from "react-notification-badge"
-
+import NotificationBadge, { Effect } from "react-notification-badge";
 
 const SideDrawer = () => {
   const [search, setSearch] = useState("");
@@ -48,7 +48,7 @@ const SideDrawer = () => {
   const history = useHistory();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const toast = useToast();
-
+  const { colorMode, toggleColorMode } = useColorMode();
   const logoutHandler = () => {
     localStorage.removeItem("userInfo");
     history.push("/");
@@ -121,13 +121,17 @@ const SideDrawer = () => {
         display="flex"
         justifyContent="space-between"
         alignItems="center"
-        bg="white"
+        bg={colorMode === "light" ? "white" : "#262626"}
         w="100%"
         p="5px 10px 5px 10px"
         borderWidth="5px"
+        borderColor={colorMode === "light" ? "white" : "#262626"}
       >
         <Tooltip label="Search Users to chat" hasArrow placement="bottom-end">
-          <Button variant="ghost" onClick={onOpen}>
+          <Button
+            bg={colorMode === "light" ? "#edf2f7" : "black"}
+            onClick={onOpen}
+          >
             <i className="fas fa-search"></i>
             <Text display={{ base: "none", sm: "flex" }} px="4">
               Search User
@@ -140,19 +144,26 @@ const SideDrawer = () => {
         <div>
           <Menu>
             <MenuButton p={1}>
-            <NotificationBadge 
-              count={notification.length}
-              effect={Effect.SCALE}
-            />
+              <NotificationBadge
+                count={notification.length}
+                effect={Effect.SCALE}
+              />
               <BellIcon fontSize="2xl" m="1" />
             </MenuButton>
             <MenuList pl={2}>
               {!notification.length && "No New Messages"}
               {notification.map((notif) => (
-                <MenuItem key={notif._id} onClick={() => {
-                  setSelectedChat(notif.chat);
-                  setNotification(notification.filter((n) => n.sender._id!==notif.sender._id));
-                }}>
+                <MenuItem
+                  key={notif._id}
+                  onClick={() => {
+                    setSelectedChat(notif.chat);
+                    setNotification(
+                      notification.filter(
+                        (n) => n.sender._id !== notif.sender._id
+                      )
+                    );
+                  }}
+                >
                   {notif.chat.isGroupChat
                     ? `New Message in ${notif.chat.chatName}`
                     : `New Message from ${getSender(user, notif.chat.users)}`}
@@ -161,7 +172,11 @@ const SideDrawer = () => {
             </MenuList>
           </Menu>
           <Menu>
-            <MenuButton as={Button} rightIcon={<ChevronDownIcon />}>
+            <MenuButton
+              as={Button}
+              bg={colorMode === "light" ? "#edf2f7" : "black"}
+              rightIcon={<ChevronDownIcon />}
+            >
               <Avatar
                 size="sm"
                 cursor="pointer"
@@ -176,6 +191,16 @@ const SideDrawer = () => {
               <MenuDivider />
               <MenuItem onClick={logoutHandler}>Logout</MenuItem>
             </MenuList>
+          </Menu>
+          <Menu>
+            <MenuButton
+              bg={colorMode === "light" ? "#edf2f7" : "black"}
+              as={Button}
+              onClick={toggleColorMode}
+              mx="1"
+            >
+              {colorMode === "light" ? <MoonIcon/> : <SunIcon/>}
+            </MenuButton>
           </Menu>
         </div>
       </Box>

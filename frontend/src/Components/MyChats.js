@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { ChatState } from "../Context/ChatProvider";
-import { Box, useToast, Button, Stack, Text } from "@chakra-ui/react";
+import { Box, useToast, Button, Stack, Text, useColorMode } from "@chakra-ui/react";
 import axios from "axios";
 import { AddIcon } from "@chakra-ui/icons";
 import ChatLoading from "./ChatLoading";
@@ -11,7 +11,7 @@ const MyChats = ({ fetchAgain }) => {
   const [loggedUser, setLoggedUser] = useState();
   const { selectedChat, setSelectedChat, user, chats, setChats } = ChatState();
   const toast = useToast();
-  
+  const { colorMode, toggleColorMode } = useColorMode();
   const fetchChats = async () => {
     try {
       const config = {
@@ -46,7 +46,7 @@ const MyChats = ({ fetchAgain }) => {
       flexDir="column"
       alignItems="center"
       p={3}
-      bg="white"
+      bg={colorMode === "light" ? "white" : "#262626"}
       w={{ base: "100%", md: "31%" }}
       borderRadius="lg"
       borderWidth="1px"
@@ -66,6 +66,7 @@ const MyChats = ({ fetchAgain }) => {
             display="flex"
             fontSize={{ base: "17px", md: "10px", lg: "17px" }}
             rightIcon={<AddIcon />}
+            bg={colorMode === "light" ? "#edf2f7" : "black"}
           >
             New Group Chat
           </Button>
@@ -75,7 +76,7 @@ const MyChats = ({ fetchAgain }) => {
         display="flex"
         flexDir="column"
         p={3}
-        bg="#f8f8f8"
+        bg={colorMode === "light" ? "white" : "black"}
         w="100%"
         h="100%"
         borderRadius="lg"
@@ -95,7 +96,7 @@ const MyChats = ({ fetchAgain }) => {
                 key={chat._id}
               >
                 <Text>
-                    {!chat.isGroupChat
+                  {!chat.isGroupChat
                     ? getSender(loggedUser, chat.users)
                     : chat.chatName}
                 </Text>
