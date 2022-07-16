@@ -96,20 +96,29 @@ const MyChats = ({ fetchAgain }) => {
                 key={chat._id}
                 display="flex"
               >
-                <Avatar
-                  mr={2}
-                  size="md"
-                  cursor="pointer"
-                  name={getSenderFull(loggedUser, chat.users).name}
-                  src={getSenderFull(loggedUser, chat.users).pic}
-                />
-                {console.log(getSenderFull(loggedUser, chat.users))}
+                {!chat.isGroupChat ? (
+                  <Avatar
+                    mr={2}
+                    size="md"
+                    cursor="pointer"
+                    name={getSenderFull(loggedUser, chat.users).name}
+                    src={getSenderFull(loggedUser, chat.users).pic}
+                  />
+                ) : (
+                  <Avatar
+                    mr={2}
+                    size="md"
+                    cursor="pointer"
+                    name={chat.chatName}
+                    src={chat.chatName}
+                  />
+                )}
                 <Box>
-                <Text fontSize={20} fontWeight="normal">
-                  {!chat.isGroupChat
-                    ? getSender(loggedUser, chat.users)
-                    : chat.chatName}
-                </Text>
+                  <Text fontSize={20} fontWeight="normal">
+                    {!chat.isGroupChat
+                      ? getSender(loggedUser, chat.users)
+                      : chat.chatName}
+                  </Text>
                   <Text fontWeight="light" fontSize={14}>
                     {getLatestMessage(chat, loggedUser)}
                   </Text>
