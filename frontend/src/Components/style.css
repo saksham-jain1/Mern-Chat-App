@@ -4,3 +4,20 @@
     overflow-y: scroll;
     scrollbar-width: none;
 }
+.emoji-picker-react {
+    position: absolute !important;
+    top: -340px;
+    background-color: #080420 !important;
+    box-shadow: 0 10px 15px #7562ce !important;
+    border-color: #9a86f3 !important;
+}
+.emoji-search {
+    background-color: #080420;
+    border-color: #9a86f3;
+}
+.emoji-categories > button {
+    filter: contrast(0) !important;
+}
+.emoji-group::before {
+    background-color: #080420 !important;
+}

@@ -9,9 +9,11 @@ import {
   InputRightElement,
   Button,
   useToast,
-  Heading,
   useColorMode,
+  InputLeftElement,
 } from "@chakra-ui/react";
+import Picker from "emoji-picker-react";
+import { BsEmojiSmileFill } from "react-icons/bs";
 import { ArrowBackIcon } from "@chakra-ui/icons";
 import React, { useEffect, useState } from "react";
 import { ChatState } from "../Context/ChatProvider";
@@ -23,10 +25,9 @@ import axios from "axios";
 import "./style.css";
 import ScrollableChat from "./ScrollableChat";
 import io from "socket.io-client";
-import Lottie from "react-lottie"
-import animationData from "../animations/typing.json"
-import animationData1 from "../animations/welcome.json"
-
+import Lottie from "react-lottie";
+import animationData from "../animations/typing.json";
+import animationData1 from "../animations/welcome.json";
 
 //development
 // const ENDPOINT = "http://localhost:3000";
@@ -39,13 +40,13 @@ var socket, selectedChatCompare;
 const SingleChat = ({ fetchAgain, setFetchAgain }) => {
   const [message, setMessage] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [newMessage, setNewMessage] = useState();
+  const [newMessage, setNewMessage] = useState("");
   const [socketConneted, setsocketConneted] = useState(false);
   const [typing, setTyping] = useState(false);
   const [isTyping, setIsTyping] = useState(false);
   const { colorMode, toggleColorMode } = useColorMode();
-
-
+  const [chosenEmoji, setChosenEmoji] = useState(null);
+  const [emojiPicker, setEmojiPicker] = useState(false);
 
   const defaultOptions = {
     loop: true,
@@ -54,6 +55,11 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
     rendererSettings: {
       preserveAspectRatio: "xMidYMid slice",
     },
+  };
+
+  const onEmojiClick = (event, emojiObject) => {
+    setChosenEmoji(emojiObject);
+    setNewMessage(newMessage + emojiObject.emoji);
   };
 
   const defaultOptions1 = {
@@ -115,11 +121,12 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
 
   useEffect(() => {
     socket.on("message recieved", (newMessageRecieved) => {
-      if ( !selectedChatCompare ||
+      if (
+        !selectedChatCompare ||
         selectedChatCompare._id !== newMessageRecieved.chat._id
       ) {
-        if(!notification.includes(newMessageRecieved)) {
-          setNotification([newMessageRecieved,...notification]);
+        if (!notification.includes(newMessageRecieved)) {
+          setNotification([newMessageRecieved, ...notification]);
           setFetchAgain(!fetchAgain);
         }
       } else {
@@ -130,7 +137,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
 
   const sendMessage = async (event) => {
     if ((event.key === "Enter" || event.type === "click") && newMessage) {
-      socket.emit("stop typing",selectedChat._id);
+      socket.emit("stop typing", selectedChat._id);
       try {
         const config = {
           headers: {
@@ -207,7 +214,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
             {!selectedChat.isGroupChat ? (
               <>
                 {getSender(user, selectedChat.users)}
-                <span style={{ display: "flex"}}>
+                <span style={{ display: "flex" }}>
                   <CallModal />
                   <ProfileModal
                     user={getSenderFull(user, selectedChat.users)}
@@ -261,29 +268,39 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
               ) : (
                 <></>
               )}
-              <InputGroup>
-                <Input
-                  varient="filled"
-                  bg="##bdbdbd"
-                  value={newMessage}
-                  placeholder="Enter a message..."
-                  onChange={typingHandler}
-                />
-                <InputRightElement width="4.5rem">
-                  <Button
-                    colorScheme="blue"
-                    h={{ base: "100%", md: "96%" }}
-                    size={{ base: "sm", md: "md" }}
-                    onClick={(e) => sendMessage(e)}
-                    borderRadius={{ base: "3xl", md: "3" }}
-                  >
-                    <Text mx="1" display={{ base: "none", md: "flex" }}>
-                      Send
-                    </Text>
-                    <i className="fas fa-paper-plane"></i>
-                  </Button>
-                </InputRightElement>
-              </InputGroup>
+              {emojiPicker && <Picker onEmojiClick={onEmojiClick} />}
+              <Box display="flex">
+                <InputGroup>
+                  <InputLeftElement>
+                    <BsEmojiSmileFill
+                      size={30}
+                      onClick={() => setEmojiPicker(!emojiPicker)}
+                      color={colorMode === "light" ? "#080420" : "yellow"}
+                    />
+                  </InputLeftElement>
+                  <Input
+                    varient="filled"
+                    bg="##bdbdbd"
+                    value={newMessage}
+                    placeholder="Enter a message..."
+                    onChange={typingHandler}
+                  />
+                  <InputRightElement width="4.5rem">
+                    <Button
+                      colorScheme="blue"
+                      h={{ base: "100%", md: "96%" }}
+                      size={{ base: "sm", md: "md" }}
+                      onClick={(e) => sendMessage(e)}
+                      borderRadius={{ base: "3xl", md: "3" }}
+                    >
+                      <Text mx="1" display={{ base: "none", md: "flex" }}>
+                        Send
+                      </Text>
+                      <i className="fas fa-paper-plane"></i>
+                    </Button>
+                  </InputRightElement>
+                </InputGroup>
+              </Box>
             </FormControl>
           </Box>
         </>
