@@ -8,6 +8,7 @@ import {
   FormLabel,
   Input,
   InputGroup,
+  useColorMode,
 } from "@chakra-ui/react";
 import axios from "axios";
 import { useHistory } from "react-router-dom";
@@ -19,7 +20,7 @@ const Login = () => {
   const [loading, setLoading] = useState(false);
   const toast = useToast();
   const history = useHistory();
-
+  const { colorMode, toggleColorMode } = useColorMode();
 
   const showHandler = () => {
     setShow(!show);
@@ -83,6 +84,7 @@ const Login = () => {
         <FormLabel>Email</FormLabel>
         <Input
           id="email1"
+          bg={colorMode === "light" ? "white" : "#465a7e66"}
           placeholder="Enter Your Email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
@@ -91,6 +93,7 @@ const Login = () => {
         <InputGroup>
           <Input
             id="password1"
+            bg={colorMode === "light" ? "white" : "#465a7e66"}
             type={"password"}
             value={password}
             placeholder="Enter Your Password"

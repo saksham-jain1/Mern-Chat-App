@@ -42,7 +42,6 @@ const Homepage = () => {
         <Text
           fontSize={"4xl"}
           fontFamily="WOrk sans"
-          color={"black"}
           textAlign={"center"}
         >
           Chatting App
@@ -52,7 +51,6 @@ const Homepage = () => {
         p={4}
         bg={colorMode === "light" ? "white" : "black"}
         w="100%"
-        color={"black"}
         borderRadius="lg"
         borderWidth="1px"
       >

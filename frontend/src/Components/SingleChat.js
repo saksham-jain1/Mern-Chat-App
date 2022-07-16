@@ -28,7 +28,12 @@ import animationData from "../animations/typing.json"
 import animationData1 from "../animations/welcome.json"
 
 
+//development
+// const ENDPOINT = "http://localhost:3000";
+
+//production
 const ENDPOINT = "https://chatting-app-0.herokuapp.com/";
+
 var socket, selectedChatCompare;
 
 const SingleChat = ({ fetchAgain, setFetchAgain }) => {

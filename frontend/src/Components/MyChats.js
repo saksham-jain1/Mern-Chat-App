@@ -4,7 +4,7 @@ import { Box, useToast, Button, Stack, Text, useColorMode } from "@chakra-ui/rea
 import axios from "axios";
 import { AddIcon } from "@chakra-ui/icons";
 import ChatLoading from "./ChatLoading";
-import { getSender } from "../config/ChatLogics";
+import { getLatestMessage, getSender } from "../config/ChatLogics";
 import GroupChatModal from "../Components/miscellameous/GroupChatModal";
 
 const MyChats = ({ fetchAgain }) => {
@@ -95,10 +95,13 @@ const MyChats = ({ fetchAgain }) => {
                 borderRadius="lg"
                 key={chat._id}
               >
-                <Text>
+                <Text fontSize={20} fontWeight="normal">
                   {!chat.isGroupChat
                     ? getSender(loggedUser, chat.users)
                     : chat.chatName}
+                </Text>
+                <Text fontWeight="light" fontSize={14} >
+                {getLatestMessage(chat,loggedUser)}
                 </Text>
               </Box>
             ))}

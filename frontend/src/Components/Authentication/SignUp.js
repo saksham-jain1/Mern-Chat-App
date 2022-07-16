@@ -8,6 +8,7 @@ import {
   FormLabel,
   Input,
   InputGroup,
+  useColorMode,
 } from "@chakra-ui/react";
 import axios from 'axios';
 import { useHistory } from 'react-router-dom';
@@ -22,7 +23,7 @@ const SignUp = () => {
   const [loading, setLoading] = useState(false);
   const toast = useToast();
   const history = useHistory();
-
+  const { colorMode, toggleColorMode } = useColorMode();
 
 
     const showHandler = () => {
@@ -136,19 +137,22 @@ const SignUp = () => {
         <FormLabel>Name</FormLabel>
         <Input
           id="name"
+          bg={colorMode === "light" ? "white" : "#465a7e66"}
           placeholder="Enter Your Name"
           onChange={(e) => setName(e.target.value)}
         />
         <FormLabel>Email</FormLabel>
         <Input
           id="email"
+          bg={colorMode === "light" ? "white" : "#465a7e66"}
           placeholder="Enter Your Email"
           onChange={(e) => setEmail(e.target.value)}
         />
         <FormLabel>Password</FormLabel>
         <InputGroup>
           <Input
-          id="password"
+            id="password"
+            bg={colorMode === "light" ? "white" : "#465a7e66"}
             type={"password"}
             placeholder="Enter Your Password"
             onChange={(e) => setPassword(e.target.value)}
@@ -162,7 +166,8 @@ const SignUp = () => {
         <FormLabel>Confirm Password</FormLabel>
         <InputGroup>
           <Input
-          id="confirmPassword"
+            bg={colorMode === "light" ? "white" : "#465a7e66"}
+            id="confirmPassword"
             type={"password"}
             placeholder="Enter Your Password"
             onChange={(e) => setConfirmPassword(e.target.value)}
@@ -177,6 +182,7 @@ const SignUp = () => {
       <FormControl>
         <FormLabel>Upload your Picture</FormLabel>
         <Input
+          bg={colorMode === "light" ? "white" : "#465a7e66"}
           id="pic"
           type="file"
           p={1.5}

@@ -44,3 +44,15 @@ export const isSameSenderMargin = (message, m, i, userId) => {
 export const isSameUser = (message,m,i) => {
   return i>0 && message[i-1].sender._id === m.sender._id;
 }
+
+export const getLatestMessage = (chat,loggedUser) => {
+  let ans = "";
+  if(chat?.latestMessage)
+  {
+    if(chat.latestMessage.sender._id === loggedUser._id)
+    ans+="You"+" : "+chat.latestMessage.content
+    else
+    ans+=chat.latestMessage.sender.name+" : "+chat.latestMessage.content
+  }
+  return ans;
+}
