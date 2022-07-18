@@ -4,9 +4,31 @@
     overflow-y: scroll;
     scrollbar-width: none;
 }
-.emoji-picker-react {
-    position: absolute !important;
+.messages > div{
+    padding-right: 10px;
+}
+
+.modal {
+    position: relative;
+    z-index: 1;
+    left: 107px;
     top: -340px;
+    height: 100%;
+}
+
+.modal-content {
+    background-color: #fefefe;
+    border: 1px solid #888;
+    width: 280px;
+}
+
+#myBtn {
+    position: relative;
+    left: 141px;
+}
+
+.emoji-picker-react {
+    width: 100% !important;
     background-color: #080420 !important;
     box-shadow: 0 10px 15px #7562ce !important;
     border-color: #9a86f3 !important;
@@ -20,4 +42,34 @@
 }
 .emoji-group::before {
     background-color: #080420 !important;
+}
+
+#chatBox ::-webkit-scrollbar {
+    width: 5px;
+}
+
+#chatBox ::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+    background-color: #080420;
+}
+
+#chatBox ::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background-color: #9a86f3;
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.5);
+}
+
+.emoji-picker-react ::-webkit-scrollbar {
+    width: 5px;
+}
+
+.emoji-picker-react ::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+    background-color: #080420;
+}
+
+.emoji-picker-react ::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background-color: #9a86f3;
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.5);
 }

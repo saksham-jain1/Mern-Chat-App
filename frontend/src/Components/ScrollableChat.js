@@ -8,7 +8,7 @@ const ScrollableChat = ({ message }) => {
   const { user } = ChatState();
   const { colorMode, toggleColorMode } = useColorMode();
   return (
-    <ScrollableFeed>
+    <ScrollableFeed id="chatBox">
       {message &&
         message.map((m, i) => (
           <div style={{ display: "flex" }} key={m._id}>

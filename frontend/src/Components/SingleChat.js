@@ -15,7 +15,7 @@ import {
 import Picker from "emoji-picker-react";
 import { BsEmojiSmileFill } from "react-icons/bs";
 import { ArrowBackIcon } from "@chakra-ui/icons";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { ChatState } from "../Context/ChatProvider";
 import { getSender, getSenderFull } from "../config/ChatLogics";
 import ProfileModal from "../Components/miscellameous/ProfileModal";
@@ -30,10 +30,10 @@ import animationData from "../animations/typing.json";
 import animationData1 from "../animations/welcome.json";
 
 //development
-const ENDPOINT = "http://localhost:3000";
+// const ENDPOINT = "http://localhost:3000";
 
 //production
-// const ENDPOINT = "https://chatting-app-0.herokuapp.com/";
+const ENDPOINT = "https://chatting-app-0.herokuapp.com/";
 
 var socket, selectedChatCompare;
 
@@ -47,6 +47,8 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
   const { colorMode, toggleColorMode } = useColorMode();
   const [chosenEmoji, setChosenEmoji] = useState(null);
   const [emojiPicker, setEmojiPicker] = useState(false);
+  const [visible, setVisible] = useState(false);
+  const inputM = useRef();
 
   const defaultOptions = {
     loop: true,
@@ -56,10 +58,18 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
       preserveAspectRatio: "xMidYMid slice",
     },
   };
-
-  const onEmojiClick = (event, emojiObject) => {
-    setChosenEmoji(emojiObject);
-    setNewMessage(newMessage + emojiObject.emoji);
+  const iconsVisibility = () => {
+    setVisible(!visible);
+  }
+  const onEmojiClick = async (event, emojiObject) => {
+    await setChosenEmoji(emojiObject);
+    var start = inputM.current.selectionStart;
+    var startM = newMessage.slice(0,start);
+    var endM = newMessage.slice(start);
+    var msg = startM + emojiObject.emoji + endM;
+    await setNewMessage(msg);
+    inputM.current.focus();
+    inputM.current.selectionEnd = start+2;
   };
 
   const defaultOptions1 = {
@@ -240,6 +250,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
             bg={colorMode === "light" ? "#e8e8e8" : "black"}
             w="100%"
             h="100%"
+            pr={0}
             borderRadius="lg"
             overflowY="hidden"
           >
@@ -252,7 +263,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
                 margin="auto"
               />
             ) : (
-              <div className="messages">
+              <div className="messages" id="chatBox">
                 <ScrollableChat message={message} />
               </div>
             )}
@@ -268,19 +279,34 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
               ) : (
                 <></>
               )}
-              {emojiPicker && <Picker onEmojiClick={onEmojiClick} />}
               <Box display="flex">
                 <InputGroup>
                   <InputLeftElement>
-                    <BsEmojiSmileFill
-                      size={30}
-                      onClick={() => setEmojiPicker(!emojiPicker)}
-                      color={colorMode === "light" ? "#080420" : "yellow"}
-                    />
+                    <button id="myBtn">
+                      <BsEmojiSmileFill
+                        size={30}
+                        color={colorMode === "light" ? "#080420" : "yellow"}
+                        onClick={() => iconsVisibility()}
+                      />
+                    </button>
+                    <div
+                      id="myModal"
+                      class="modal"
+                      style={{ visibility: visible ? "visible" : "hidden" }}
+                    >
+                      <div class="modal-content" id="modal-content">
+                        <Picker
+                          id="chatBox"
+                          width="280px"
+                          onEmojiClick={onEmojiClick}
+                        />
+                      </div>
+                    </div>
                   </InputLeftElement>
                   <Input
                     varient="filled"
                     bg="##bdbdbd"
+                    ref={inputM}
                     value={newMessage}
                     placeholder="Enter a message..."
                     onChange={typingHandler}
