@@ -11,9 +11,6 @@ const ChatProvider = ({ children }) => {
 
   const history = useHistory();
 
-  useEffect(() => {
-}, [history])
-
 
 useEffect(() => {
     const userInfo = JSON.parse(localStorage.getItem("userInfo"));

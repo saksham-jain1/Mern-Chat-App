@@ -29,7 +29,7 @@ const SignUp = () => {
     const showHandler = () => {
       setShow(!show);
 
-      const type = show ? "text" : "password";
+      const type = !show ? "text" : "password";
       document.getElementById("password").setAttribute("type", type);
       document.getElementById("confirmPassword").setAttribute("type", type);
     };

@@ -25,7 +25,7 @@ const Login = () => {
   const showHandler = () => {
     setShow(!show);
 
-    const type = show ? 'text' : 'password';
+    const type = !show ? 'text' : 'password';
     document.getElementById("password1").setAttribute('type', type);
   };
 
