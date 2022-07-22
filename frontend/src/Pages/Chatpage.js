@@ -9,7 +9,10 @@ import { useState } from "react";
 const Chatpage = () => {
     const { user } = ChatState();
     const [fetchAgain, setFetchAgain] = useState(false);
-    
+    if(!user)
+    {
+      window.location.reload();
+    }
 
   return (
     <div style={{width:'100%'}}>
