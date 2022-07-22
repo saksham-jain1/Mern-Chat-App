@@ -33,7 +33,7 @@ import animationData1 from "../animations/welcome.json";
 // const ENDPOINT = "http://localhost:3000";
 
 //production
-const ENDPOINT = "http://chatting-app-0.herokuapp.com/";
+const ENDPOINT = "https://chatting-app-0.herokuapp.com/";
 
 var socket, selectedChatCompare;
 
