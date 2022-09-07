@@ -11,9 +11,6 @@ const Chatpage = () => {
     const [fetchAgain, setFetchAgain] = useState(false);
   return (
     <div style={{width:'100%'}}>
-    <div>
-      Loading...
-    </div>
         {user && <SideDrawer/> }
         <Box
         display='flex'
