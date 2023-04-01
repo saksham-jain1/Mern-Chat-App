@@ -6,10 +6,12 @@ import { AddIcon } from "@chakra-ui/icons";
 import ChatLoading from "./ChatLoading";
 import { getLatestMessage, getSender, getSenderFull } from "../config/ChatLogics";
 import GroupChatModal from "../Components/miscellameous/GroupChatModal";
+import { useHistory } from "react-router-dom";
 
 const MyChats = ({ fetchAgain }) => {
   const [loggedUser, setLoggedUser] = useState();
   const { selectedChat, setSelectedChat, user, chats, setChats } = ChatState();
+  const history = useHistory();
   const toast = useToast();
   const { colorMode, toggleColorMode } = useColorMode();
   const fetchChats = async () => {
@@ -23,6 +25,11 @@ const MyChats = ({ fetchAgain }) => {
       const { data } = await axios.get("/api/chat", config);
       setChats(data);
     } catch (error) {
+      if(error.response.status==401)
+      {
+        history.push('/')
+      }
+      else
       toast({
         title: "Error Occured!",
         description: "Failed to load the chats",

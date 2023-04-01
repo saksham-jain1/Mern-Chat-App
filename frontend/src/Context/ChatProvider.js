@@ -6,20 +6,20 @@ const ChatContext = createContext();
 const ChatProvider = ({ children }) => {
   const [selectedChat, setSelectedChat] = useState();
   const [chats, setChats] = useState([]);
-  const [user, setUser] = useState();
+  const [user, setUser] = useState({});
   const [notification, setNotification] = useState([]);
+  const [load, setLoad] = useState(false);
 
   const history = useHistory();
 
-
-useEffect(() => {
+  useEffect(() => {
     const userInfo = JSON.parse(localStorage.getItem("userInfo"));
-    setUser({...userInfo});
-    
+    setUser({ ...userInfo });
+
     if (!userInfo) {
-        history.push("/");
+      history.push("/");
     }
-  }, [history]);
+  }, [history, load]);
 
   return (
     <ChatContext.Provider
@@ -32,6 +32,8 @@ useEffect(() => {
         setChats,
         notification,
         setNotification,
+        load,
+        setLoad,
       }}
     >
       {children}

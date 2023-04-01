@@ -12,6 +12,7 @@ import {
 } from "@chakra-ui/react";
 import axios from "axios";
 import { useHistory } from "react-router-dom";
+import { ChatState } from "../../Context/ChatProvider";
 
 const Login = () => {
   const [show, setShow] = useState(false);
@@ -21,6 +22,7 @@ const Login = () => {
   const toast = useToast();
   const history = useHistory();
   const { colorMode, toggleColorMode } = useColorMode();
+  const {setLoad} = ChatState();
 
   const showHandler = () => {
     setShow(!show);
@@ -65,6 +67,7 @@ const Login = () => {
 
       setLoading(false);
       history.push("/chats");
+      setLoad(true);
       
     } catch (error) {
       toast({

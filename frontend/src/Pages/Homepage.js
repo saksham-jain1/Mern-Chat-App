@@ -1,6 +1,6 @@
-import React from 'react'
-import Login from '../Components/Authentication/Login'
-import SignUp from '../Components/Authentication/SignUp'
+import React from "react";
+import Login from "../Components/Authentication/Login";
+import SignUp from "../Components/Authentication/SignUp";
 import {
   Container,
   Box,
@@ -12,16 +12,15 @@ import {
   TabPanel,
   useColorMode,
 } from "@chakra-ui/react";
-import { useEffect } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useEffect } from "react";
+import { useHistory } from "react-router-dom";
 
 const Homepage = () => {
   const history = useHistory();
-    const { colorMode, toggleColorMode } = useColorMode();
+  const { colorMode, toggleColorMode } = useColorMode();
 
   useEffect(() => {
     const user = JSON.parse(localStorage.getItem("userInfo"));
-
     if (user) {
       history.push("/chats");
     }
@@ -39,11 +38,7 @@ const Homepage = () => {
         borderRadius="lg"
         borderWidth="1px"
       >
-        <Text
-          fontSize={"4xl"}
-          fontFamily="WOrk sans"
-          textAlign={"center"}
-        >
+        <Text fontSize={"4xl"} fontFamily="WOrk sans" textAlign={"center"}>
           Chatting App
         </Text>
       </Box>
@@ -71,6 +66,6 @@ const Homepage = () => {
       </Box>
     </Container>
   );
-}
+};
 
-export default Homepage
+export default Homepage;
