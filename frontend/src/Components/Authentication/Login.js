@@ -22,13 +22,13 @@ const Login = () => {
   const toast = useToast();
   const history = useHistory();
   const { colorMode, toggleColorMode } = useColorMode();
-  const {setLoad} = ChatState();
+  const { setLoad, setUser } = ChatState();
 
   const showHandler = () => {
     setShow(!show);
 
-    const type = !show ? 'text' : 'password';
-    document.getElementById("password1").setAttribute('type', type);
+    const type = !show ? "text" : "password";
+    document.getElementById("password1").setAttribute("type", type);
   };
 
   const submitHandler = async () => {
@@ -62,13 +62,12 @@ const Login = () => {
         isClosable: true,
         position: "bottom",
       });
-
+      setUser({ ...data });
       localStorage.setItem("userInfo", JSON.stringify(data));
 
       setLoading(false);
-      history.push("/chats");
       setLoad(true);
-      
+      history.push("/chats");
     } catch (error) {
       toast({
         title: "Error Occured!",

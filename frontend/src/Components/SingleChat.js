@@ -30,10 +30,10 @@ import animationData from "../animations/typing.json";
 import animationData1 from "../animations/welcome.json";
 
 //development
-const ENDPOINT = "http://localhost:3000";
+// const ENDPOINT = "http://localhost:3000";
 
 //production
-// const ENDPOINT = "https://chatting-app-0.herokuapp.com/";
+const ENDPOINT = "https://mern-chat-app.osc-fr1.scalingo.io/";
 
 var socket, selectedChatCompare;
 
@@ -60,16 +60,16 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
   };
   const iconsVisibility = () => {
     setVisible(!visible);
-  }
+  };
   const onEmojiClick = async (event, emojiObject) => {
     await setChosenEmoji(emojiObject);
     var start = inputM.current.selectionStart;
-    var startM = newMessage.slice(0,start);
+    var startM = newMessage.slice(0, start);
     var endM = newMessage.slice(start);
     var msg = startM + emojiObject.emoji + endM;
     await setNewMessage(msg);
     inputM.current.focus();
-    inputM.current.selectionEnd = start+2;
+    inputM.current.selectionEnd = start + 2;
   };
 
   const defaultOptions1 = {
@@ -146,7 +146,10 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
   });
 
   const sendMessage = async (event) => {
-    if ((event.key === "Enter" || event.type === "click") && newMessage!=="") {
+    if (
+      (event.key === "Enter" || event.type === "click") &&
+      newMessage !== ""
+    ) {
       socket.emit("stop typing", selectedChat._id);
       try {
         const config = {

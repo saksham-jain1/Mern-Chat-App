@@ -10,8 +10,9 @@ import {
   InputGroup,
   useColorMode,
 } from "@chakra-ui/react";
-import axios from 'axios';
-import { useHistory } from 'react-router-dom';
+import axios from "axios";
+import { useHistory } from "react-router-dom";
+import { ChatState } from "../../Context/ChatProvider";
 
 const SignUp = () => {
   const [show, setShow] = useState(false);
@@ -24,19 +25,19 @@ const SignUp = () => {
   const toast = useToast();
   const history = useHistory();
   const { colorMode, toggleColorMode } = useColorMode();
+  const { setLoad, setUser } = ChatState();
 
+  const showHandler = () => {
+    setShow(!show);
 
-    const showHandler = () => {
-      setShow(!show);
-
-      const type = !show ? "text" : "password";
-      document.getElementById("password").setAttribute("type", type);
-      document.getElementById("confirmPassword").setAttribute("type", type);
-    };
+    const type = !show ? "text" : "password";
+    document.getElementById("password").setAttribute("type", type);
+    document.getElementById("confirmPassword").setAttribute("type", type);
+  };
 
   const postDetails = (pics) => {
     setLoading(true);
-    if(pics === undefined) {
+    if (pics === undefined) {
       toast({
         title: "Please Select an Image",
         status: "warning",
@@ -46,23 +47,25 @@ const SignUp = () => {
       });
       return;
     }
-    if(pics.type === "image/jpeg" || pics.type === "image/png") {
+    if (pics.type === "image/jpeg" || pics.type === "image/png") {
       const data = new FormData();
-      data.append("file",pics);
+      data.append("file", pics);
       data.append("upload_preset", "chat-app");
       data.append("cloud_name", "chatting-app");
       fetch("https://api.cloudinary.com/v1_1/chatting-app/image/upload", {
-        method: 'post',
+        method: "post",
         body: data,
-      }).then((res) => res.json()).then(data => {
-        setPic(data.url.toString());
-        setLoading(false);
-      }).catch((err) => {
-        console.log(err);
-        setLoading(false);
       })
-    } else
-    {
+        .then((res) => res.json())
+        .then((data) => {
+          setPic(data.url.toString());
+          setLoading(false);
+        })
+        .catch((err) => {
+          console.log(err);
+          setLoading(false);
+        });
+    } else {
       toast({
         title: "Please Select an Image",
         status: "warning",
@@ -75,9 +78,9 @@ const SignUp = () => {
     }
   };
 
-  const submitHandler = async() => {
+  const submitHandler = async () => {
     setLoading(true);
-    if(!name || !email || !password || !confirmPassword) {
+    if (!name || !email || !password || !confirmPassword) {
       toast({
         title: "Please Fil all the Fields",
         status: "warning",
@@ -88,7 +91,7 @@ const SignUp = () => {
       setLoading(false);
       return;
     }
-    if(password!==confirmPassword) {
+    if (password !== confirmPassword) {
       toast({
         title: "Passwords don't Maatches",
         status: "warning",
@@ -105,7 +108,11 @@ const SignUp = () => {
         },
       };
 
-      const {data} = await axios.post("/api/user",{name,email,password,pic},config);
+      const { data } = await axios.post(
+        "/api/user",
+        { name, email, password, pic },
+        config
+      );
       toast({
         title: "Registration Successful",
         status: "success",
@@ -114,10 +121,11 @@ const SignUp = () => {
         position: "bottom",
       });
 
-      localStorage.setItem('userInfo',JSON.stringify(data));
+      setUser({ ...data });
+      localStorage.setItem("userInfo", JSON.stringify(data));
 
       setLoading(false);
-      history.push("/chats");
+      setLoad(true);
     } catch (error) {
       toast({
         title: "Error Occured!",

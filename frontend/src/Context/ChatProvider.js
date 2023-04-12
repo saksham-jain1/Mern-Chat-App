@@ -19,7 +19,7 @@ const ChatProvider = ({ children }) => {
     if (!userInfo) {
       history.push("/");
     }
-  }, [history, load]);
+  }, [history, load,user]);
 
   return (
     <ChatContext.Provider
